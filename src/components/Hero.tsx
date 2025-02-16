@@ -8,10 +8,10 @@ const Hero = () => {
       <div className="max-w-4xl mx-auto text-center space-y-8 fade-in">
         <div className="space-y-2">
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-            Make Your Voice Heard
+            Fai Sentire la Tua Voce
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground">
-            Anonymous feedback platform for a better workplace
+            Piattaforma di feedback anonimo per un ambiente di lavoro migliore
           </p>
         </div>
 
@@ -34,7 +34,7 @@ const Hero = () => {
           className="group"
           onClick={() => window.location.href = '/feedback'}
         >
-          Share Feedback
+          Condividi Feedback
           <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
         </Button>
       </div>
@@ -44,18 +44,18 @@ const Hero = () => {
 
 const features = [
   {
-    title: "Anonymous Feedback",
-    description: "Share your thoughts safely and securely, without fear of identification.",
+    title: "Feedback Anonimo",
+    description: "Condividi i tuoi pensieri in modo sicuro e anonimo, senza timore di essere identificato.",
     icon: Shield
   },
   {
-    title: "Real-time Insights",
-    description: "See how your feedback contributes to workplace improvements.",
+    title: "Analisi in Tempo Reale",
+    description: "Osserva come il tuo feedback contribuisce al miglioramento dell'ambiente lavorativo.",
     icon: BarChart2
   },
   {
-    title: "Open Communication",
-    description: "Bridge the gap between employees and management effectively.",
+    title: "Comunicazione Aperta",
+    description: "Colma il divario tra dipendenti e management in modo efficace.",
     icon: MessageSquare
   }
 ];

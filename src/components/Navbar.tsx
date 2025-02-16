@@ -9,7 +9,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <a href="/" className="text-xl font-semibold text-primary">
-              EmployeeVoice
+              VoceAziendale
             </a>
           </div>
 
@@ -18,10 +18,10 @@ const Navbar = () => {
               Dashboard
             </a>
             <a href="/feedback" className="text-gray-600 hover:text-gray-900">
-              Give Feedback
+              Invia Feedback
             </a>
             <Button variant="outline" size="sm">
-              Login
+              Accedi
             </Button>
           </div>
 
