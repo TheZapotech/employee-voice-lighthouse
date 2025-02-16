@@ -54,20 +54,16 @@ export const FeedbackForm = () => {
 
       if (error) throw error;
 
-      // Analizza il sentiment
-      const response = await fetch("/functions/v1/analyze-sentiment", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      // Analizza il sentiment usando l'Edge Function
+      const { error: sentimentError } = await supabase.functions.invoke("analyze-sentiment", {
+        body: {
           feedback_id: feedback.id,
           content: values.content,
-        }),
+        },
       });
 
-      if (!response.ok) {
-        console.error("Errore nell'analisi del sentiment");
+      if (sentimentError) {
+        console.error("Errore nell'analisi del sentiment:", sentimentError);
       }
 
       form.reset();
