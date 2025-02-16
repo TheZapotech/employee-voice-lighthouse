@@ -11,7 +11,6 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [isSignUp, setIsSignUp] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -20,24 +19,12 @@ const Auth = () => {
     setLoading(true);
 
     try {
-      if (isSignUp) {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-        });
-        if (error) throw error;
-        toast({
-          title: "Registrazione completata!",
-          description: "Controlla la tua email per confermare l'account.",
-        });
-      } else {
-        const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-        if (error) throw error;
-        navigate("/dashboard");
-      }
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (error) throw error;
+      navigate("/dashboard");
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -54,7 +41,7 @@ const Auth = () => {
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            {isSignUp ? "Registrazione" : "Accedi al tuo account"}
+            Accedi al tuo account
           </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleAuth}>
@@ -91,20 +78,8 @@ const Auth = () => {
               className="w-full"
               disabled={loading}
             >
-              {loading ? "Caricamento..." : isSignUp ? "Registrati" : "Accedi"}
+              {loading ? "Caricamento..." : "Accedi"}
             </Button>
-          </div>
-
-          <div className="text-center">
-            <button
-              type="button"
-              className="text-sm text-blue-600 hover:text-blue-800"
-              onClick={() => setIsSignUp(!isSignUp)}
-            >
-              {isSignUp
-                ? "Hai già un account? Accedi"
-                : "Non hai un account? Registrati"}
-            </button>
           </div>
         </form>
       </div>
