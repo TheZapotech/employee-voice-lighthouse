@@ -23,6 +23,7 @@ Un'applicazione web moderna per la gestione dei feedback aziendali, costruita co
 ## Documentazione
 
 - [Schema del Database](docs/database-schema.sql)
+- [Edge Function per Analisi Sentiment](supabase/functions/analyze-sentiment/index.ts)
 
 ## Struttura del Database
 
@@ -32,6 +33,13 @@ Il database è strutturato in tre tabelle principali:
 - `feedback_categories`: Categorie dei feedback
 
 Per i dettagli completi sulla struttura del database, consulta lo [schema SQL](docs/database-schema.sql).
+
+## Codice Sorgente
+
+Il codice sorgente completo, inclusa la Edge Function per l'analisi del sentiment, è disponibile su GitHub:
+[Link al Repository GitHub](https://github.com/yourusername/feedback-system)
+
+Nota: Sostituisci `yourusername` con il tuo nome utente GitHub dopo aver effettuato il fork o il clone del repository.
 
 ## Sviluppo Locale
 
