@@ -18,6 +18,7 @@ export type Database = {
           is_anonymous: boolean | null
           response: string | null
           response_by: string | null
+          sentiment: string | null
           status: Database["public"]["Enums"]["feedback_status"] | null
           submitted_by: string | null
           title: string
@@ -31,6 +32,7 @@ export type Database = {
           is_anonymous?: boolean | null
           response?: string | null
           response_by?: string | null
+          sentiment?: string | null
           status?: Database["public"]["Enums"]["feedback_status"] | null
           submitted_by?: string | null
           title: string
@@ -44,6 +46,7 @@ export type Database = {
           is_anonymous?: boolean | null
           response?: string | null
           response_by?: string | null
+          sentiment?: string | null
           status?: Database["public"]["Enums"]["feedback_status"] | null
           submitted_by?: string | null
           title?: string
