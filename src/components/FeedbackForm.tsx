@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -53,11 +54,11 @@ export const FeedbackForm = () => {
 
       if (error) throw error;
 
+      // Analizza il sentiment
       const response = await fetch("/functions/v1/analyze-sentiment", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${process.env.SUPABASE_ANON_KEY}`,
         },
         body: JSON.stringify({
           feedback_id: feedback.id,
