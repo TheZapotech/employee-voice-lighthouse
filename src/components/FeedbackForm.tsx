@@ -1,5 +1,6 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -27,7 +28,29 @@ const formSchema = z.object({
 
 export const FeedbackForm = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [session, setSession] = useState<any>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!session) {
+        navigate("/auth");
+      }
+      setSession(session);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session) {
+        navigate("/auth");
+      }
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,6 +62,11 @@ export const FeedbackForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    if (!session) {
+      navigate("/auth");
+      return;
+    }
+
     setLoading(true);
     try {
       const { data: feedback, error } = await supabase
@@ -48,6 +76,7 @@ export const FeedbackForm = () => {
           content: values.content,
           is_anonymous: values.is_anonymous,
           status: "pending",
+          submitted_by: values.is_anonymous ? null : session.user.id,
         })
         .select()
         .single();
@@ -82,6 +111,10 @@ export const FeedbackForm = () => {
       setLoading(false);
     }
   };
+
+  if (!session) {
+    return null;
+  }
 
   return (
     <Form {...form}>
