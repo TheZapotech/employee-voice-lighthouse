@@ -1,69 +1,64 @@
-# Welcome to your Lovable project
 
-## Project info
+# Sistema di Feedback Aziendale
 
-**URL**: https://lovable.dev/projects/084343ca-bddb-40f2-b5d5-587b8bb15fc9
+Un'applicazione web moderna per la gestione dei feedback aziendali, costruita con React, TypeScript e Supabase.
 
-## How can I edit this code?
+## Caratteristiche
 
-There are several ways of editing your application.
+- 🔒 Autenticazione sicura degli utenti
+- 📝 Invio di feedback anonimi o identificati
+- 🤖 Analisi automatica del sentiment dei feedback
+- 📊 Dashboard per la gestione dei feedback
+- 👥 Gestione dei ruoli utente (dipendenti, manager, admin)
 
-**Use Lovable**
+## Tecnologie Utilizzate
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/084343ca-bddb-40f2-b5d5-587b8bb15fc9) and start prompting.
+- React + TypeScript
+- Vite per il bundling
+- Tailwind CSS per lo styling
+- shadcn/ui per i componenti
+- Supabase per backend e autenticazione
 
-Changes made via Lovable will be committed automatically to this repo.
+## Documentazione
 
-**Use your preferred IDE**
+- [Schema del Database](docs/database-schema.sql)
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Struttura del Database
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Il database è strutturato in tre tabelle principali:
+- `profiles`: Informazioni degli utenti
+- `feedback`: Feedback inviati
+- `feedback_categories`: Categorie dei feedback
 
-Follow these steps:
+Per i dettagli completi sulla struttura del database, consulta lo [schema SQL](docs/database-schema.sql).
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Sviluppo Locale
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+1. Clona il repository
+```bash
+git clone <repository-url>
+```
 
-# Step 3: Install the necessary dependencies.
-npm i
+2. Installa le dipendenze
+```bash
+npm install
+```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Crea un file `.env` nella root del progetto con le seguenti variabili:
+```
+VITE_SUPABASE_URL=<il-tuo-url-supabase>
+VITE_SUPABASE_ANON_KEY=<la-tua-chiave-anonima>
+```
+
+4. Avvia il server di sviluppo
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Deploy
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+L'applicazione può essere distribuita su qualsiasi hosting che supporti applicazioni Node.js. Assicurati di configurare le variabili d'ambiente necessarie nel tuo ambiente di produzione.
 
-**Use GitHub Codespaces**
+## Licenza
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with .
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/084343ca-bddb-40f2-b5d5-587b8bb15fc9) and click on Share -> Publish.
-
-## I want to use a custom domain - is that possible?
-
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+Questo progetto è sotto licenza MIT. Vedi il file LICENSE per i dettagli.
