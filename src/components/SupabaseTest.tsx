@@ -14,8 +14,11 @@ const SupabaseTest = () => {
   const testConnection = async () => {
     try {
       setStatus('loading')
-      // Tentiamo una semplice query
-      const { data, error } = await supabase.from('_realtime').select('*').limit(1)
+      // Testiamo la connessione usando la tabella feedback_categories che sappiamo esistere
+      const { data, error } = await supabase
+        .from('feedback_categories')
+        .select('*')
+        .limit(1)
       
       if (error) throw error
       
