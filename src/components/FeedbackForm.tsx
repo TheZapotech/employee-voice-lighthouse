@@ -1,10 +1,11 @@
-
-import { useState } from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
-import { useToast } from "@/hooks/use-toast"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { useToast } from "@/components/ui/use-toast";
 import {
   Form,
   FormControl,
@@ -13,25 +14,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Checkbox } from "@/components/ui/checkbox"
-import { supabase } from "@/integrations/supabase/client"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
-  title: z.string().min(2, {
-    message: "Il titolo deve contenere almeno 2 caratteri.",
-  }),
-  content: z.string().min(10, {
-    message: "Il feedback deve contenere almeno 10 caratteri.",
-  }),
+  title: z.string().min(1, "Il titolo è obbligatorio"),
+  content: z.string().min(1, "Il contenuto è obbligatorio"),
   is_anonymous: z.boolean().default(false),
-})
+});
 
-export function FeedbackForm() {
-  const { toast } = useToast()
-  const [isSubmitting, setIsSubmitting] = useState(false)
+export const FeedbackForm = () => {
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,43 +35,60 @@ export function FeedbackForm() {
       content: "",
       is_anonymous: false,
     },
-  })
+  });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setLoading(true);
     try {
-      setIsSubmitting(true)
-      
-      const { error } = await supabase
-        .from('feedback')
-        .insert([{
+      const { data: feedback, error } = await supabase
+        .from("feedback")
+        .insert({
           title: values.title,
           content: values.content,
           is_anonymous: values.is_anonymous,
-          status: 'pending'
-        }])
+          status: "pending",
+        })
+        .select()
+        .single();
 
-      if (error) throw error
+      if (error) throw error;
 
+      const response = await fetch("/functions/v1/analyze-sentiment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${process.env.SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({
+          feedback_id: feedback.id,
+          content: values.content,
+        }),
+      });
+
+      if (!response.ok) {
+        console.error("Errore nell'analisi del sentiment");
+      }
+
+      form.reset();
       toast({
         title: "Feedback inviato",
         description: "Grazie per il tuo feedback!",
-      })
-      
-      form.reset()
+      });
     } catch (error) {
+      console.error("Errore nell'invio del feedback:", error);
       toast({
         variant: "destructive",
         title: "Errore",
-        description: "Si è verificato un errore durante l'invio del feedback.",
-      })
+        description: "Si è verificato un errore nell'invio del feedback.",
+      });
     } finally {
-      setIsSubmitting(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
           name="title"
@@ -115,7 +127,7 @@ export function FeedbackForm() {
           render={({ field }) => (
             <FormItem className="flex flex-row items-start space-x-3 space-y-0">
               <FormControl>
-                <Checkbox
+                <Switch
                   checked={field.value}
                   onCheckedChange={field.onChange}
                 />
@@ -130,10 +142,10 @@ export function FeedbackForm() {
           )}
         />
 
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Invio in corso..." : "Invia feedback"}
+        <Button type="submit" disabled={loading}>
+          {loading ? "Invio in corso..." : "Invia feedback"}
         </Button>
       </form>
     </Form>
-  )
-}
+  );
+};
