@@ -18,6 +18,7 @@ Un'applicazione web moderna per la gestione dei feedback aziendali, costruita co
 - Tailwind CSS per lo styling
 - shadcn/ui per i componenti
 - Supabase per backend e autenticazione
+- OpenAI per l'analisi del sentiment
 
 ## Documentazione
 
@@ -44,10 +45,12 @@ git clone <repository-url>
 npm install
 ```
 
-3. Crea un file `.env` nella root del progetto con le seguenti variabili:
+3. Configura le variabili d'ambiente
+Crea un file `.env` nella root del progetto con le seguenti variabili:
 ```
 VITE_SUPABASE_URL=<il-tuo-url-supabase>
 VITE_SUPABASE_ANON_KEY=<la-tua-chiave-anonima>
+OPENAI_API_KEY=<la-tua-chiave-api-openai>    # Richiesta per l'analisi del sentiment
 ```
 
 4. Avvia il server di sviluppo
